@@ -1,0 +1,4 @@
+/Users/kbrusch/CVV/project/CMakeFiles/rebuild_cache.dir
+/Users/kbrusch/CVV/project/CMakeFiles/edit_cache.dir
+/Users/kbrusch/CVV/project/CMakeFiles/saliency_project_main.dir
+/Users/kbrusch/CVV/project/CMakeFiles/pyramids.dir
