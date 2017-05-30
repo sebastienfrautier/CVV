@@ -1,0 +1,2 @@
+- Note the use of include guards in the header files to prevent multiple inclusions. https://en.wikipedia.org/wiki/Include_guard
+- There is a note on C++ function parameter semantics in the file orientation_test.cpp

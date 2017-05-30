@@ -1,0 +1,7 @@
+cmake_minimum_required(VERSION 2.8)
+project(ccv_ex03)
+find_package( OpenCV REQUIRED )
+add_executable(${PROJECT_NAME}_filter src/filter.cpp)
+add_executable(${PROJECT_NAME}_pyramid src/pyramid.cpp)
+target_link_libraries(${PROJECT_NAME}_filter ${OpenCV_LIBS})
+target_link_libraries(${PROJECT_NAME}_pyramid ${OpenCV_LIBS})
