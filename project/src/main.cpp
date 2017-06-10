@@ -30,19 +30,21 @@ cv::Mat across_scale_addition(const std::vector<cv::Mat>& scale_images)
 
 int main(int argc, char** argv )
 {
-    std::vector<cv::Mat> input(10);
-    std::vector<cv::Mat> lab(10);
 
-    for ( int i = 0; i < 1; ++i)
+    std::vector<cv::Mat> input(1001);
+    std::vector<cv::Mat> lab(1001);
+
+
+    cv::String path("/Users/kbrusch/CVV/input/*.jpg"); //select only jpg
+    cv::vector<cv::String> fn;
+    cv::vector<cv::Mat> data;
+    cv::glob(path,fn,true); // recurse
+    for (size_t i=0; i<fn.size(); ++i)
     {
+        input[i] = cv::imread(fn[i]);
         std::stringstream ss;
         ss << i;
         std::string i_as_str = ss.str();
-
-        //std::string off_on_filename = "0_0_" + i_as_str + ".jpg";
-        std::string filename = "0_0_272.jpg";
-        input[i] = cv::imread(filename.c_str(), CV_LOAD_IMAGE_COLOR);
-
 
 
         cv::cvtColor(input[i], lab[i], cv::COLOR_BGR2Lab);
@@ -75,9 +77,6 @@ int main(int argc, char** argv )
             cv::Mat SC = surround - center;
             cv::threshold(SC, SC, 0, 1, cv::THRESH_TOZERO);
 
-            //cv::imshow("Center-surround contrast", CS );
-            //cv::imshow("Surround-center contrast", SC );
-            //cv::waitKey(0);
     }
 
         // Across-scale addition example for CS
@@ -100,14 +99,37 @@ int main(int argc, char** argv )
                       cv::Size(2 * erosion_size + 1, 2 * erosion_size + 1),
                       cv::Point(erosion_size, erosion_size) );
 
-        erode(F, E , element);
+        cv::erode(F, E , element);
 
-        cv::namedWindow("Feature map", CV_WINDOW_AUTOSIZE);
-        cv::imshow("Feature map", E );
-        cv::waitKey(0);
+        cv::String file_name = fn[i];
+
+        size_t lastindex = file_name.find_last_of(".");
+        size_t lastindexslash = file_name.find_last_of("/");
+
+        cv::String rawname = file_name.substr(lastindexslash+1, (lastindex-lastindexslash)-1);
+
+        cv::namedWindow(rawname, CV_WINDOW_AUTOSIZE);
+
+
+        //cv::COLOR_Lab2BGR
+        //cv::Mat output;
+        //cv::cvtColor(E, output, 56);
+
+        //cv::cvtColor(E, output, cv::COLOR_Lab2RGB);
+        //lab[i].convertTo(lab[i], CV_32F);
+
+
+
+        cv::imwrite( "/Users/kbrusch/CVV/project/output/"+rawname+".png", E);
+
+        cv::imshow("Feature map", E);
+        cv::waitKey(10);
+
+        if (input[i].empty()) continue; //only proceed if sucsessful
+        // you probably want to do some preprocessing
+        data.push_back(input[i]);
 
 
     }
-
     return 0;
 }
