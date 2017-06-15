@@ -14,7 +14,7 @@ public:
         cv::Mat dst = img.clone(); //deep copy to not modify original image
         for (int i = 0; i < number_of_layers; ++i)
         {
-            cv::GaussianBlur(dst, dst, cv::Size(5,5), 0, 0, cv::BORDER_CONSTANT);
+            cv::GaussianBlur(dst, dst, cv::Size(3,3), 0, 0, cv::BORDER_CONSTANT);
             layers_.push_back( dst.clone() ); // remember to deep copy!
             std::cout << "layer " << i << " size " << layers_.back().size() << std::endl;
             cv::resize(dst, dst, cv::Size(), 0.5, 0.5, cv::INTER_NEAREST);
@@ -36,7 +36,7 @@ int main(int argc, char** argv )
     // 1.
     cv::Mat image = cv::imread(argv[1], CV_LOAD_IMAGE_COLOR);
 
-    // 2. 
+    // 2.
     cv::Mat lab;
     cv::cvtColor(image, lab, cv::COLOR_BGR2Lab);
     // Convert the image to float, and scale to range [0, 1]
